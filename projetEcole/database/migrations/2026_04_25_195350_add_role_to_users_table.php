@@ -11,8 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('eleves', function (Blueprint $table) {
-            $table->foreignId('classe_id')->nullable()->constrained('classes')->onDelete('set null');
+        Schema::table('users', function (Blueprint $table) {
+            $table->string('role')->default('admin'); // admin, enseignant, eleve
         });
     }
 
@@ -21,8 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('eleves', function (Blueprint $table) {
-            $table->dropConstrainedForeignId('classe_id');
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropColumn('role');
         });
     }
 };

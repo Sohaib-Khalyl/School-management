@@ -22,6 +22,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role',
     ];
 
     /**
@@ -45,5 +46,21 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    /**
+     * Get the teacher record associated with the user.
+     */
+    public function enseignant()
+    {
+        return $this->hasOne(Enseignant::class);
+    }
+
+    /**
+     * Get the student record associated with the user.
+     */
+    public function eleve()
+    {
+        return $this->hasOne(Eleve::class);
     }
 }

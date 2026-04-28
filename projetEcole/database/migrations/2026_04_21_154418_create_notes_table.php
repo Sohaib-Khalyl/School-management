@@ -19,6 +19,7 @@ return new class extends Migration
             $table->foreignId('id_evaluation')
             ->constrained('evaluations')
             ->cascadeOnDelete();
+            $table->decimal('valeur', 4, 2);
             $table->timestamps();
         });
     }

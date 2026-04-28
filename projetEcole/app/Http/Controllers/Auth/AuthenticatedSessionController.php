@@ -14,9 +14,9 @@ class AuthenticatedSessionController extends Controller
     /**
      * Display the login view.
      */
-    public function create(): View
+    public function create(Request $request, $role = null): View
     {
-        return view('auth.login');
+        return view('auth.login', ['role' => $role]);
     }
 
     /**
@@ -26,7 +26,26 @@ class AuthenticatedSessionController extends Controller
     {
         $request->authenticate();
 
+        $user = Auth::user();
+        $expectedRole = $request->input('role');
+
+        if ($expectedRole && $user->role !== $expectedRole) {
+            Auth::logout();
+            return back()->withErrors([
+                'email' => "Ce compte n'est pas autorisé à accéder à cet espace.",
+            ]);
+        }
+
         $request->session()->regenerate();
+
+        // Redirect based on role
+        if ($user->role === 'admin') {
+            return redirect()->intended(route('admin.dashboard', absolute: false));
+        } elseif ($user->role === 'enseignant') {
+            return redirect()->intended(route('enseignant.dashboard', absolute: false));
+        } elseif ($user->role === 'eleve') {
+            return redirect()->intended(route('eleve.dashboard', absolute: false));
+        }
 
         return redirect()->intended(route('dashboard', absolute: false));
     }

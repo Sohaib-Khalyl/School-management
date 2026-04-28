@@ -21,29 +21,10 @@ class Classe extends Model
     }
 
     /**
-     * Get the timetable entries for this class.
+     * Get evaluations for this class.
      */
-    public function emploisDuTemps(): HasMany
+    public function evaluations(): HasMany
     {
-        return $this->hasMany(EmploiDuTemps::class);
-    }
-
-    /**
-     * Get timetable grouped by day.
-     */
-    public function getTimetableByDay()
-    {
-        $timetable = [];
-        $jours = ['lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi'];
-
-        foreach ($jours as $jour) {
-            $timetable[$jour] = $this->emploisDuTemps()
-                ->where('jour', $jour)
-                ->with(['matiere', 'enseignant'])
-                ->orderBy('heure_debut')
-                ->get();
-        }
-
-        return $timetable;
+        return $this->hasMany(Evaluation::class);
     }
 }

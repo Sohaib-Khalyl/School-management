@@ -23,8 +23,6 @@ class EmploiDuTemps extends Model
     ];
 
     protected $casts = [
-        'heure_debut' => 'time',
-        'heure_fin' => 'time',
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
     ];
